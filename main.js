@@ -11,6 +11,23 @@ function createGrid(size = 16) {
         grid.appendChild(cell);
     }
 
+    const cells = document.querySelectorAll('.cell');
+    console.log(cells);
+    cells.forEach(cell => {
+        cell.addEventListener('click', () => {
+            if (colorPicker.classList.contains('active') ||
+                customColorBtn.classList.contains('active')) {
+                cell.style.backgroundColor = `${customPenColor}`;
+            } else if (randomColorBtn.classList.contains('active')) {
+                randomRgb(255);
+                const r = randomPenColor[0];
+                const g = randomPenColor[1];
+                const b = randomPenColor[2];
+                cell.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            }
+        });
+    });
+
     return size;
 }
 
@@ -37,10 +54,10 @@ const resizeGridBtn = document.querySelector('.resize-grid-btn');
 resizeGridBtn.addEventListener('click', () => {
     const cells = document.querySelectorAll('.cell');
     cells.forEach(cell => {
-        cell.remove();
+        grid.removeChild(cell);
     });
 
-    createGrid(getGridSize());
+    createGrid(getGridSize())
 });
 
 let customPenColor;
@@ -80,20 +97,3 @@ function randomRgb(maxValue) {
     const intArrayRgb = stringRgb.split(' ').map(element => parseInt(element));
     return randomPenColor = intArrayRgb;
 }
-
-const cells = document.querySelectorAll('.cell');
-cells.forEach(cell => {
-    cell.addEventListener('click', () => {
-        if (colorPicker.classList.contains('active') ||
-            customColorBtn.classList.contains('active')) {
-            cell.style.backgroundColor = `${customPenColor}`;
-        } else if (randomColorBtn.classList.contains('active')) {
-            randomRgb(255);
-            const r = randomPenColor[0];
-            const g = randomPenColor[1];
-            const b = randomPenColor[2];
-            cell.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
-        }
-    });
-});
-
