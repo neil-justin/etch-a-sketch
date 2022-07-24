@@ -1,3 +1,9 @@
+window.addEventListener('load', () => {
+    createGrid();
+    customColorBtn.classList.add('active');
+    customPenColor = colorPicker.value;
+});
+
 function createGrid(size = 16) {
     const grid = document.querySelector('.grid');
     const totalCells = size ** 2;
@@ -30,8 +36,6 @@ function createGrid(size = 16) {
 
     return size;
 }
-
-createGrid();
 
 function getGridSize() {
     askAgain:
