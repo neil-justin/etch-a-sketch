@@ -4,8 +4,9 @@ window.addEventListener('load', () => {
     customPenColor = colorPicker.value;
 });
 
+const grid = document.querySelector('.grid');
+
 function createGrid(size = 16) {
-    const grid = document.querySelector('.grid');
     const totalCells = size ** 2;
     const cellSize = 500 / size; // where 500 is the width/height of the grid
 
@@ -23,14 +24,18 @@ function createGrid(size = 16) {
         cell.addEventListener('click', () => {
             if (colorPicker.classList.contains('active') ||
                 customColorBtn.classList.contains('active')) {
-                cell.style.backgroundColor = `${customPenColor}`;
+                cell.style.backgroundColor = colorPicker.value || customPenColor;
             } else if (randomColorBtn.classList.contains('active')) {
                 randomRgb(255);
                 const r = randomPenColor[0];
                 const g = randomPenColor[1];
                 const b = randomPenColor[2];
                 cell.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            } else if (eraserBtn.classList.contains('active')) {
+                cell.style.backgroundColor = eraserBtn.value;
             }
+
+            return console.log(cell.style.backgroundColor);
         });
     });
 
@@ -64,18 +69,22 @@ resizeGridBtn.addEventListener('click', () => {
     createGrid(getGridSize())
 });
 
-let customPenColor;
 const colorPicker = document.querySelector('.color-picker');
 colorPicker.addEventListener('change', (e) => {
     colorPicker.classList.add('active');
+    customColorBtn.classList.add('active');
     randomColorBtn.classList.remove('active');
-    return customPenColor = colorPicker.setAttribute('value', `${e.target.value}`);
+    eraserBtn.classList.remove('active');
+    return colorPicker.setAttribute('value', `${e.target.value}`);
 });
 
+let customPenColor;
 const customColorBtn = document.querySelector('.custom-color-btn');
 customColorBtn.addEventListener('click', () => {
     customColorBtn.classList.add('active');
+    colorPicker.classList.add('active');
     randomColorBtn.classList.remove('active');
+    eraserBtn.classList.remove('active');
     return customPenColor = colorPicker.value;
 });
 
@@ -84,6 +93,7 @@ randomColorBtn.addEventListener('click', () => {
     randomColorBtn.classList.add('active');
     colorPicker.classList.remove('active');
     customColorBtn.classList.remove('active');
+    eraserBtn.classList.remove('active');
 });
 
 let randomPenColor;
@@ -101,3 +111,11 @@ function randomRgb(maxValue) {
     const intArrayRgb = stringRgb.split(' ').map(element => parseInt(element));
     return randomPenColor = intArrayRgb;
 }
+
+const eraserBtn = document.querySelector('.eraser-btn');
+eraserBtn.addEventListener('click', () => {
+    eraserBtn.classList.add('active');
+    colorPicker.classList.remove('active');
+    randomColorBtn.classList.remove('active');
+    customColorBtn.classList.remove('active');
+})
