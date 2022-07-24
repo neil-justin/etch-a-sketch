@@ -31,10 +31,17 @@ function createGrid(size = 16) {
                 const b = randomPenColor[2];
                 cell.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
             } else if (eraserBtn.classList.contains('active')) {
-                cell.style.backgroundColor = eraserBtn.value;
+                cell.style.backgroundColor = 'white';
             }
 
-            return console.log(cell.style.backgroundColor);
+            return cell.style.backgroundColor;
+        });
+    });
+
+    const clearBtn = document.querySelector('.clear-btn');
+    clearBtn.addEventListener('click', () => {
+        cells.forEach(cell => {
+            cell.style.backgroundColor = 'white';
         });
     });
 
@@ -111,7 +118,7 @@ const eraserBtn = document.querySelector('.eraser-btn');
 eraserBtn.addEventListener('click', () => {
     eraserBtn.classList.add('active');
     dismissBtns(eraserBtn);
-})
+});
 
 function dismissBtns(activeBtn) {
     switch (true) {
