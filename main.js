@@ -19,7 +19,6 @@ function createGrid(size = 16) {
     }
 
     const cells = document.querySelectorAll('.cell');
-    console.log(cells);
     cells.forEach(cell => {
         cell.addEventListener('click', () => {
             if (colorPicker.classList.contains('active') ||
@@ -70,11 +69,10 @@ resizeGridBtn.addEventListener('click', () => {
 });
 
 const colorPicker = document.querySelector('.color-picker');
-colorPicker.addEventListener('change', (e) => {
+colorPicker.addEventListener('change', () => {
     colorPicker.classList.add('active');
     customColorBtn.classList.add('active');
-    randomColorBtn.classList.remove('active');
-    eraserBtn.classList.remove('active');
+    dismissBtns(colorPicker);
     return colorPicker.setAttribute('value', `${e.target.value}`);
 });
 
@@ -83,17 +81,14 @@ const customColorBtn = document.querySelector('.custom-color-btn');
 customColorBtn.addEventListener('click', () => {
     customColorBtn.classList.add('active');
     colorPicker.classList.add('active');
-    randomColorBtn.classList.remove('active');
-    eraserBtn.classList.remove('active');
+    dismissBtns(customColorBtn);
     return customPenColor = colorPicker.value;
 });
 
 const randomColorBtn = document.querySelector('.random-color-btn');
 randomColorBtn.addEventListener('click', () => {
     randomColorBtn.classList.add('active');
-    colorPicker.classList.remove('active');
-    customColorBtn.classList.remove('active');
-    eraserBtn.classList.remove('active');
+    dismissBtns(randomColorBtn);
 });
 
 let randomPenColor;
@@ -115,7 +110,25 @@ function randomRgb(maxValue) {
 const eraserBtn = document.querySelector('.eraser-btn');
 eraserBtn.addEventListener('click', () => {
     eraserBtn.classList.add('active');
-    colorPicker.classList.remove('active');
-    randomColorBtn.classList.remove('active');
-    customColorBtn.classList.remove('active');
+    dismissBtns(eraserBtn);
 })
+
+function dismissBtns(activeBtn) {
+    switch (true) {
+        case (activeBtn === colorPicker):
+        case (activeBtn === customColorBtn):
+            randomColorBtn.classList.remove('active');
+            eraserBtn.classList.remove('active');
+            break;
+        case (activeBtn === randomColorBtn):
+            colorPicker.classList.remove('active');
+            customColorBtn.classList.remove('active');
+            eraserBtn.classList.remove('active');
+            break;
+        case (activeBtn === eraserBtn):
+            colorPicker.classList.remove('active');
+            randomColorBtn.classList.remove('active');
+            customColorBtn.classList.remove('active');
+            break;
+    }
+}
