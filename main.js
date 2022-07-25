@@ -13,17 +13,19 @@ function createGrid(size = 16) {
     for (let i = 0; i < totalCells; i++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
-        cell.setAttribute('style', `border: 2px solid yellow; margin: 0; padding: 0; width: ${cellSize}px; \
+        cell.setAttribute('style', `margin: 0; padding: 0; width: ${cellSize}px; \
             height: ${cellSize}px;`);
         grid.appendChild(cell);
     }
 
     const cells = document.querySelectorAll('.cell');
     cells.forEach(cell => {
-        cell.addEventListener('click', () => {
+        cell.addEventListener('mouseup', () => {
             if (colorPicker.classList.contains('active') ||
                 customColorBtn.classList.contains('active')) {
                 cell.style.backgroundColor = colorPicker.value || customPenColor;
+                // to prevent the colorPicker element from getting the background-color: black
+                colorPicker.classList.remove('active');
             } else if (randomColorBtn.classList.contains('active')) {
                 randomRgb(255);
                 const r = randomPenColor[0];
@@ -33,8 +35,6 @@ function createGrid(size = 16) {
             } else if (eraserBtn.classList.contains('active')) {
                 cell.style.backgroundColor = 'white';
             }
-
-            return cell.style.backgroundColor;
         });
     });
 
@@ -124,6 +124,7 @@ function dismissBtns(activeBtn) {
     switch (true) {
         case (activeBtn === colorPicker):
         case (activeBtn === customColorBtn):
+            colorPicker.classList.remove('active');
             randomColorBtn.classList.remove('active');
             eraserBtn.classList.remove('active');
             break;

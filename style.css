@@ -39,6 +39,10 @@ body {
     box-shadow: 0 0 25px lightgray;
 }
 
+.cell:hover {
+    background-color: lightgray;
+}
+
 .tools {
     display: flex;
     flex-direction: column;
